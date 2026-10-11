@@ -1,0 +1,49 @@
+media:
+input: media
+output: /Context-media/media
+
+content:
+
+* name: news
+    label: Новости и статьи
+    type: collection
+    path: content/news
+    filename: “{primary}.md”
+    view:
+    primary: title
+    sort: date
+    default:
+    sort: date
+    order: desc
+    fields:
+    * name: title
+        label: Заголовок
+        type: string
+        required: true
+    * name: date
+        label: Дата публикации
+        type: date
+        required: true
+    * name: category
+        label: Рубрика
+        type: select
+        options:
+        values:
+        - Новости
+        - Аналитика
+        - Общество
+        - Культура
+        - Мир
+        - Видео
+    * name: cover
+        label: Обложка
+        type: image
+    * name: description
+        label: Краткое описание
+        type: text
+    * name: body
+        label: Текст статьи
+        type: rich-text
+        options:
+        format: markdown
+        media: false
