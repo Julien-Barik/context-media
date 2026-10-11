@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="CONTEXT-MEDIA — новости, аналитика, общество, культура и видео.">
+<title>CONTEXT-MEDIA — Новости и видео</title>
+<style>
+*{box-sizing:border-box}
+:root{--bg:#f5f4f0;--text:#171717;--muted:#777;--red:#e6392e;--line:#d9d7d1}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,Helvetica,sans-serif}
+a{color:inherit;text-decoration:none}
+header,main,footer{max-width:1250px;margin:auto;padding-left:24px;padding-right:24px}
+.top{display:flex;justify-content:space-between;gap:10px;padding:20px 0 14px;font-size:11px;color:var(--muted);letter-spacing:1px}
+.logo{text-align:center;font-family:Georgia,serif;font-weight:900;font-size:clamp(35px,8vw,88px);letter-spacing:-3px;padding:18px 0 25px}
+.logo span{color:var(--red)}
+nav{display:flex;justify-content:center;flex-wrap:wrap;gap:23px;padding:16px 5px;border-top:1px solid;border-bottom:1px solid;font-size:11px;font-weight:bold;letter-spacing:1px}
+nav a:hover{color:var(--red)}
+main{padding-top:28px}
+.label{font-size:11px;font-weight:bold;letter-spacing:2px;text-transform:uppercase;border-bottom:2px solid;padding-bottom:12px;margin-bottom:22px}
+.hero{display:grid;grid-template-columns:1.2fr 1fr;gap:30px;padding-bottom:35px;border-bottom:1px solid var(--line)}
+.hero img{width:100%;height:360px;object-fit:cover;display:block;background:#ddd}
+.tag{color:var(--red);font-size:11px;font-weight:bold;text-transform:uppercase;letter-spacing:1px;margin:15px 0 10px}
+h1,h2,h3{font-family:Georgia,serif;margin-top:0}
+h1{font-size:clamp(32px,4.7vw,58px);line-height:1.04;letter-spacing:-1px;margin-bottom:18px}
+.desc{font-size:15px;line-height:1.7;color:#555}
+.meta{font-size:10px;color:var(--muted);letter-spacing:1px}
+.section{margin-top:36px}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:25px}
+.card{padding-bottom:20px;border-bottom:1px solid var(--line)}
+.card img{width:100%;aspect-ratio:16/10;object-fit:cover;background:#ddd;display:block}
+.card h3{font-size:24px;line-height:1.15;margin-bottom:10px}
+.video{background:#191919;color:white;padding:28px;margin-top:45px}
+.video h2{font-size:38px;margin-bottom:10px}
+.video p{color:#ccc;line-height:1.6}
+.video-placeholder{margin-top:22px;background:#292929;min-height:200px;display:flex;align-items:center;justify-content:center;text-align:center}
+.play{font-size:48px;color:var(--red)}
+footer{margin-top:35px;border-top:2px solid;padding-top:25px;padding-bottom:40px;display:flex;justify-content:space-between;gap:15px;flex-wrap:wrap;font-size:11px;color:var(--muted)}
+@media(max-width:700px){header,main,footer{padding-left:16px;padding-right:16px}.top{font-size:9px}.logo{letter-spacing:-2px}nav{gap:15px;font-size:10px}.hero{grid-template-columns:1fr;gap:8px}.hero img{height:240px}.grid{grid-template-columns:1fr;gap:25px}.card h3{font-size:26px}.video{padding:20px}.video h2{font-size:32px}}
+</style>
+</head>
+<body>
+<header>
+<div class="top"><span>НЕЗАВИСИМОЕ МЕДИА</span><span>НОВОСТИ · АНАЛИТИКА · ВИДЕО</span></div>
+<div class="logo">CONTEXT<span>-</span>MEDIA</div>
+<nav>
+<a href="#news">НОВОСТИ</a>
+<a href="#analysis">АНАЛИТИКА</a>
+<a href="#society">ОБЩЕСТВО</a>
+<a href="#culture">КУЛЬТУРА</a>
+<a href="#world">МИР</a>
+<a href="#video">ВИДЕО</a>
+</nav>
+</header>
+<main>
+<div class="label">ГЛАВНОЕ</div>
+<section class="hero">
+<div><img src="https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1200&q=85" alt="Современный город и работа"></div>
+<article>
+<div class="tag">ТОЧКА ЗРЕНИЯ</div>
+<h1>Мир меняется. Важно понимать почему.</h1>
+<p class="desc">Новости, люди и идеи, которые формируют наше время. Не просто сообщаем, что произошло, — разбираемся в контексте.</p>
+<p class="meta">CONTEXT-MEDIA · РЕДАКЦИОННЫЙ МАТЕРИАЛ</p>
+</article>
+</section>
+<section class="section" id="news">
+<div class="label">ПОСЛЕДНИЕ ПУБЛИКАЦИИ</div>
+<div class="grid">
+<article class="card">
+<img src="https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=700&q=80" alt="Новости">
+<div class="tag">НОВОСТИ</div><h3>События, которые определяют сегодняшний день</h3>
+<p class="desc">Главное из происходящего — коротко и по существу.</p><p class="meta">НОВОСТИ · ОБЗОР</p>
+</article>
+<article class="card" id="analysis">
+<img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=700&q=80" alt="Аналитика">
+<div class="tag">АНАЛИТИКА</div><h3>За пределами громких заголовков</h3>
+<p class="desc">Факты, аргументы и разные точки зрения на важные вопросы.</p><p class="meta">АНАЛИТИКА · МНЕНИЯ</p>
+</article>
+<article class="card" id="society">
+<img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=700&q=80" alt="Общество">
+<div class="tag">ОБЩЕСТВО</div><h3>Люди и перемены вокруг нас</h3>
+<p class="desc">Истории людей и процессы, меняющие повседневную жизнь.</p><p class="meta">ОБЩЕСТВО · ИСТОРИИ</p>
+</article>
+<article class="card" id="culture">
+<img src="https://images.unsplash.com/photo-1513364776144-60967b0f800f?auto=format&fit=crop&w=700&q=80" alt="Искусство">
+<div class="tag">КУЛЬТУРА</div><h3>Искусство, кино и идеи</h3>
+<p class="desc">О книгах, кино, творчестве и культурных событиях.</p><p class="meta">КУЛЬТУРА · ОБЗОРЫ</p>
+</article>
+<article class="card" id="world">
+<img src="https://images.unsplash.com/photo-1521295121783-8a321d551ad2?auto=format&fit=crop&w=700&q=80" alt="Город">
+<div class="tag">МИР</div><h3>Международная повестка без упрощений</h3>
+<p class="desc">Страны, события и глобальные тенденции.</p><p class="meta">МИР · СОБЫТИЯ</p>
+</article>
+<article class="card">
+<img src="https://images.unsplash.com/photo-1492619375914-88005aa9e8fb?auto=format&fit=crop&w=700&q=80" alt="Видеокамера">
+<div class="tag">МУЛЬТИМЕДИА</div><h3>Истории, которые нужно увидеть</h3>
+<p class="desc">Интервью, репортажи и авторские видеопроекты.</p><p class="meta">ВИДЕО · РЕПОРТАЖИ</p>
+</article>
+</div>
+</section>
+<section class="video" id="video">
+<div class="tag">СМОТРИТЕ</div>
+<h2>CONTEXT-MEDIA VIDEO</h2>
+<p>Интервью, репортажи, документальные истории и авторские проекты.</p>
+<div class="video-placeholder"><div><div class="play">▶</div><p>ВИДЕОРАЗДЕЛ</p></div></div>
+</section>
+</main>
+<footer>
+<div><strong>CONTEXT-MEDIA</strong><br>Новости. Аналитика. Контекст.</div>
+<div>© 2026 CONTEXT-MEDIA</div>
+</footer>
+</body>
+</html>
