@@ -909,7 +909,41 @@ footer {
     render();
   });
 });
+document.querySelectorAll('nav a[href^="#"]').forEach(function (link) {
+  link.addEventListener('click', function (event) {
+    const target = link.getAttribute('href');
 
+    const categoryMap = {
+      '#news': 'Новини',
+      '#politics': 'Політика',
+      '#world': 'Світ',
+      '#sports': 'Спорт',
+      '#animals': 'Тварини',
+      '#food': 'Їжа без меж',
+      '#videos': 'video'
+    };
+
+    if (!categoryMap[target]) return;
+
+    event.preventDefault();
+
+    activeCategory = categoryMap[target];
+
+    document.querySelectorAll('.category-button').forEach(function (button) {
+      button.classList.toggle(
+        'active',
+        button.dataset.category.toLowerCase() === activeCategory.toLowerCase()
+      );
+    });
+
+    render();
+
+    document.getElementById('news-grid').scrollIntoView({
+      behavior: 'smooth',
+      block: 'start'
+    });
+  });
+});
   try {
     currentLanguage = localStorage.getItem('pesnews-language') || 'uk';
   } catch (error) {
