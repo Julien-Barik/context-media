@@ -32,6 +32,9 @@ content:
       - name: cover
         label: Обложка
         type: image
+        - name: video
+        label: Посилання на відео
+        type: string
       - name: description
         label: Краткое описание
         type: text
