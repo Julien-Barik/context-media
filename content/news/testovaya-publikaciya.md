@@ -1,5 +1,5 @@
 ---
-title: "Тестовая публикация"
+title: "Перша Публікація"
 title_en: "Test Publication"
 date: "2026-10-12"
 category: "Новости"
