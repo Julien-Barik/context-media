@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PESNEWS — Стаття</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: #101114;
+      color: #f3f3f3;
+      font-family: Arial, sans-serif;
+      line-height: 1.7;
+    }
+    header {
+      padding: 22px;
+      border-bottom: 1px solid #333;
+      background: #17181c;
+    }
+    .container {
+      max-width: 850px;
+      margin: auto;
+      padding: 24px;
+    }
+    .logo {
+      color: #fff;
+      font-size: 26px;
+      font-weight: bold;
+      text-decoration: none;
+      letter-spacing: 2px;
+    }
+    .back {
+      display: inline-block;
+      margin-top: 22px;
+      color: #ffca28;
+      text-decoration: none;
+    }
+    .tag { color: #ffca28; margin-top: 25px; }
+    h1 { font-size: clamp(30px, 5vw, 48px); line-height: 1.2; }
+    .date { color: #aaa; font-size: 14px; }
+    .cover {
+      display: block;
+      width: 100%;
+      max-height: 480px;
+      object-fit: cover;
+      border-radius: 10px;
+      margin: 25px 0;
+    }
+    .body-text { white-space: pre-wrap; overflow-wrap: anywhere; }
+    .body-text p { margin: 0 0 18px; }
+    iframe { width: 100%; aspect-ratio: 16 / 9; border: 0; margin-top: 24px; }
+    .status { color: #bbb; padding: 30px 0; }
+    footer { border-top: 1px solid #333; color: #888; padding: 25px; text-align: center; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <a class="logo" href="./">PESNEWS</a>
+    </div>
+  </header>
+  <main class="container">
+    <a class="back" href="./">← <span id="backText">До всіх новин</span></a>
+    <div id="article" class="status">Завантаження статті…</div>
+  </main>
+  <footer>PESNEWS</footer>
+  <script>
+    (async function () {
+      const root = 'https://api.github.com/repos/Julien-Barik/pesnews/contents/content/news';
+      const params = new URLSearchParams(location.search);
+      const filename = params.get('file');
+      const container = document.getElementById('article');
+
+      let language = 'uk';
+      try {
+        language = localStorage.getItem('pesnews-language') || 'uk';
+      } catch (error) {}
+
+      document.documentElement.lang = language;
+      document.getElementById('backText').textContent =
+        language === 'en' ? 'Back to all news' : 'До всіх новин';
+
+      function esc(value) {
+        return String(value || '').replace(/[&<>"']/g, function (char) {
+          return {
+            '&': '&amp;', '<': '&lt;', '>': '&gt;',
+            '"': '&quot;', "'": '&#39;'
+          }[char];
+        });
+      }
+
+      function parse(text) {
+        const result = { body: text.trim() };
+        const normalized = text.replace(/^\uFEFF/, '');
+        const match = normalized.match(/^---\s*\r?\n([\s\S]*?)\r?\n---\s*(?:\r?\n|$)/);
+
+        if (match) {
+          match[1].split(/\r?\n/).forEach(function (line) {
+            const item = line.match(/^([a-zA-Z0-9_-]+)\s*:\s*(.*)$/);
+            if (item) {
+              let value = item[2].trim();
+              if ((value.startsWith('"') && value.endsWith('"')) ||
+                  (value.startsWith("'") && value.endsWith("'"))) {
+                value = value.slice(1, -1);
+              }
+              result[item[1]] = value;
+            }
+          });
+          result.body = normalized.slice(match[0].length).trim();
+        }
+        return result;
+      }
+
+      function videoHTML(url) {
+        if (!url) return '';
+        let videoUrl;
+        try {
+          videoUrl = new URL(url);
+        } catch (error) {
+          return '';
+        }
+
+        let id = '';
+        if (videoUrl.hostname.includes('youtu.be')) {
+          id = videoUrl.pathname.slice(1);
+        } else if (videoUrl.hostname.includes('youtube.com')) {
+          id = videoUrl.searchParams.get('v') || '';
+          if (videoUrl.pathname.startsWith('/embed/')) {
+            id = videoUrl.pathname.split('/')[2] || '';
+          }
+        }
+
+        if (!/^[\w-]+$/.test(id)) return '';
+        return '<iframe src="https://www.youtube-nocookie.com/embed/' +
+          encodeURIComponent(id) +
+          '" title="Video" allowfullscreen loading="lazy"></iframe>';
+      }
+
+      try {
+        if (!filename || filename.includes('/') || !/\.md$/i.test(filename)) {
+          throw new Error('Invalid article filename');
+        }
+
+        const listResponse = await fetch(root, {
+          headers: { Accept: 'application/vnd.github+json' }
+        });
+        if (!listResponse.ok) throw new Error('Could not load news list');
+
+        const files = await listResponse.json();
+        const file = files.find(function (item) {
+          return item.type === 'file' && item.name === filename;
+        });
+        if (!file) throw new Error('Article not found');
+
+        const articleResponse = await fetch(file.download_url);
+        if (!articleResponse.ok) throw new Error('Could not load article');
+
+        const article = parse(await articleResponse.text());
+        const title = language === 'en'
+          ? article.title_en || article.title || filename
+          : article.title || filename;
+        const description = language === 'en'
+          ? article.description_en || article.description || ''
+          : article.description || '';
+        const body = language === 'en'
+          ? article.body_en || article.body || ''
+          : article.body || '';
+        const category = language === 'en'
+          ? article.category_en || article.category || 'News'
+          : article.category || 'Новини';
+
+        document.title = title + ' — PESNEWS';
+
+        container.className = '';
+        container.innerHTML =
+          '<div class="tag">' + esc(category) + '</div>' +
+          '<h1>' + esc(title) + '</h1>' +
+          (article.date ? '<div class="date">' + esc(article.date) + '</div>' : '') +
+          (article.cover
+            ? '<img class="cover" src="' + esc(article.cover) +
+              '" alt="' + esc(title) + '">' : '') +
+          (description ? '<p>' + esc(description) + '</p>' : '') +
+          '<div class="body-text">' +
+            esc(body).replace(/\r?\n/g, '<br>') +
+          '</div>' +
+          videoHTML(article.video);
+      } catch (error) {
+        console.error(error);
+        container.className = 'status';
+        container.textContent = language === 'en'
+          ? 'Could not find this article. Return to the news page and try again.'
+          : 'Не вдалося знайти цю статтю. Поверніться до новин і спробуйте ще раз.';
+      }
+    })();
+  </script>
+</body>
+</html>
