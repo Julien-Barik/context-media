@@ -201,7 +201,7 @@ footer{margin-top:35px;border-top:2px solid;padding-top:25px;padding-bottom:40px
           ${article.video ? `
   <div class="video-container">
     <iframe
-      src="${article.video.replace('watch?v=', 'embed/').replace('youtu.be/', 'www.youtube.com/embed/')}"
+      src="https://www.youtube-nocookie.com/embed/${article.video.match(/(?:v=|youtu\.be\/|shorts\/)([a-zA-Z0-9_-]{11})/)?.[1] || ''}"
       title="Видео ПесNews"
       frameborder="0"
       allowfullscreen>
