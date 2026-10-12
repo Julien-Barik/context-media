@@ -1061,6 +1061,148 @@ height: 230px;
 font-size: 22px;
 }
 }
+  /* PESNEWS — Professional Newsroom Design */
+
+body {
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(232,189,85,0.07), transparent 42%),
+    #0b0c0f;
+}
+
+header {
+  border-bottom: 1px solid rgba(232,189,85,0.22);
+}
+
+.hero,
+.news-section {
+  max-width: 1440px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 28px;
+  padding-right: 28px;
+}
+
+.section-heading {
+  border-bottom: 1px solid rgba(255,255,255,0.13);
+  padding-bottom: 16px;
+}
+
+.section-heading h2 {
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+}
+
+.feature {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, #202127, #111216);
+  border: 1px solid rgba(255,255,255,0.12);
+  box-shadow: 0 18px 55px rgba(0,0,0,0.25);
+}
+
+.feature-image img {
+  transition: transform 0.5s ease;
+}
+
+.feature:hover .feature-image img {
+  transform: scale(1.035);
+}
+
+.feature-copy {
+  position: relative;
+  z-index: 1;
+}
+
+.feature h1 {
+  line-height: 1.08;
+  letter-spacing: -1.3px;
+}
+
+.feature p {
+  color: #b7bac2;
+}
+
+.primary-button {
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.primary-button:hover {
+  background: #f3d27f;
+  transform: translateY(-2px);
+}
+
+.news-grid {
+  align-items: stretch;
+}
+
+.card {
+  overflow: hidden;
+  background: #14161b;
+  border: 1px solid rgba(255,255,255,0.09);
+  border-radius: 10px;
+  transition: transform 0.25s ease, border-color 0.25s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(232,189,85,0.55);
+}
+
+.card-image {
+  position: relative;
+  background: #202127;
+}
+
+.card-image img {
+  transition: transform 0.4s ease;
+}
+
+.card:hover .card-image img {
+  transform: scale(1.04);
+}
+
+.card h3 {
+  line-height: 1.35;
+  letter-spacing: -0.3px;
+}
+
+.card-description {
+  color: #a8acb5;
+}
+
+.card-meta {
+  border-top: 1px solid rgba(255,255,255,0.08);
+}
+
+.category-button {
+  transition: all 0.2s ease;
+}
+
+input,
+select,
+textarea {
+  max-width: 100%;
+}
+
+@media (max-width: 700px) {
+  .hero,
+  .news-section {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .feature h1 {
+    letter-spacing: -0.6px;
+  }
+
+  .section-heading {
+    align-items: flex-start;
+  }
+
+  .card {
+    border-radius: 8px;
+  }
+}
   </style>
 </head>
 
