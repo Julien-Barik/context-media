@@ -205,7 +205,12 @@ footer{margin-top:35px;border-top:2px solid;padding-top:25px;padding-bottom:40px
 
     if (!valid.length) return;
 
-    grid.innerHTML = valid.map(article => {
+   grid.innerHTML = valid.map(article => {
+   const lang = document.documentElement.lang || ‘uk’;
+   const title = lang === ‘en’ ? (article.title_en || article.title) : article.title;
+   const category = article.category;
+   const description = lang === ‘en’ ? (article.description_en || article.description) : article.description;
+   const body = lang === ‘en’ ? (article.body_en || article.body) : article.body;
       let cover = article.cover;
 
       if (cover && !/^https?:\/\//i.test(cover)) {
@@ -220,13 +225,13 @@ footer{margin-top:35px;border-top:2px solid;padding-top:25px;padding-bottom:40px
       return `
         <article class="card">
           <img src="${escapeHTML(cover)}" alt="${escapeHTML(article.title)}">
-          <div class="tag">${escapeHTML(article.category)}</div>
-          <h3>${escapeHTML(article.title)}</h3>
-          <p class="desc">${escapeHTML(article.description)}</p>
+          <div class="tag">${escapeHTML(category)}</div>
+          <h3>${escapeHTML(title)}</h3>
+          <p class="desc">${escapeHTML(description)}</p>
           <p class="meta">${escapeHTML(article.date)}</p>
           <details>
             <summary>Читать статью</summary>
-            <p class="desc">${escapeHTML(article.body).replace(/\n/g, '<br>')}</p>
+            <p class="desc">${escapeHTML(.body).replace(/\n/g, '<br>')}</p>
          
           ${article.video ? `
   <div class="video-container">
