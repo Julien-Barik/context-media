@@ -714,6 +714,144 @@ footer {
   .search { width: 100%; }
   .footer-inner { flex-direction: column; align-items: flex-start; }
 }
+* PESNEWS — Premium Minimal Design */
+
+:root {
+  --bg: #0b0c0f;
+  --surface: #14161b;
+  --surface-hover: #1c1f26;
+  --accent: #e8bd55;
+  --text: #f4f3ef;
+  --muted: #969ba5;
+  --border: rgba(255,255,255,0.09);
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  letter-spacing: -0.015em;
+}
+
+.topline {
+  background: #08090b;
+  color: #a6a9b0;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+header {
+  background: rgba(11,12,15,0.94);
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+.logo {
+  color: var(--text);
+  font-weight: 900;
+  letter-spacing: -0.07em;
+}
+
+.logo span {
+  color: var(--accent);
+}
+
+nav a {
+  color: #c3c5cb;
+  transition: color .2s ease;
+}
+
+nav a:hover {
+  color: var(--accent);
+}
+
+.languages button {
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--muted);
+}
+
+.languages button.active {
+  background: var(--accent);
+  color: #111;
+  border-color: var(--accent);
+}
+
+.breaking {
+  border-bottom: 1px solid var(--border);
+}
+
+.breaking-label,
+.tag {
+  color: var(--accent);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.section-heading {
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 14px;
+}
+
+.section-heading h2 {
+  color: var(--text);
+  letter-spacing: -0.045em;
+}
+
+.feature,
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  transition: border-color .25s ease, transform .25s ease;
+}
+
+.card:hover {
+  border-color: rgba(232,189,85,0.45);
+  transform: translateY(-3px);
+}
+
+.feature h1,
+.card h3 {
+  color: var(--text);
+  letter-spacing: -0.04em;
+  line-height: 1.15;
+}
+
+.card p,
+.feature p {
+  color: var(--muted);
+}
+
+.card-image img,
+.feature-image img {
+  transition: transform .5s ease;
+}
+
+.card:hover .card-image img {
+  transform: scale(1.035);
+}
+
+.video-play {
+  background: var(--accent);
+  color: #111;
+  border: none;
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+footer {
+  border-top: 1px solid var(--border);
+  color: var(--muted);
+}
 </style>
 </head>
 
