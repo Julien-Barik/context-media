@@ -248,6 +248,7 @@ footer{margin-top:35px;border-top:2px solid;padding-top:25px;padding-bottom:40px
 })();
  
 function setLanguage(lang) {
+   alert('Переключение языка: ' + lang);
   document.documentElement.lang = lang;
 
   document.querySelectorAll('[data-uk][data-en]').forEach(function(element) {
