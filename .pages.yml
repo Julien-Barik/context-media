@@ -41,3 +41,12 @@ content:
       - name: body
         label: Текст статьи
         type: rich-text
+        name: title_en
+        label: Заголовок (English)
+        type: string
+      - name: description_en
+        label: Краткое описание (English)
+        type: text
+      - name: body_en
+        label: Текст статьи (English)
+        type: rich-text
