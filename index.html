@@ -109,5 +109,102 @@ footer{margin-top:35px;border-top:2px solid;padding-top:25px;padding-bottom:40px
 <div><strong>CONTEXT-MEDIA</strong><br>Новости. Аналитика. Контекст.</div>
 <div>© 2026 CONTEXT-MEDIA</div>
 </footer>
+<script>
+(async function () {
+  const grid = document.querySelector('.grid');
+  if (!grid) return;
+
+  const api = 'https://api.github.com/repos/Julien-Barik/context-media/contents/content/news';
+
+  function escapeHTML(value) {
+    return String(value || '').replace(/[&<>"']/g, function (c) {
+      return {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#39;'
+      }[c];
+    });
+  }
+
+  function getField(text, name) {
+    const match = text.match(
+      new RegExp('^' + name + ':\\s*(.*)$', 'm')
+    );
+    return match
+      ? match[1].trim().replace(/^["']|["']$/g, '')
+      : '';
+  }
+
+  try {
+    const response = await fetch(api);
+    if (!response.ok) throw new Error('Не удалось загрузить список');
+
+    const files = await response.json();
+    const articles = await Promise.all(
+      files
+        .filter(file => file.name.endsWith('.md'))
+        .map(async file => {
+          const res = await fetch(file.download_url);
+          if (!res.ok) return null;
+
+          const text = await res.text();
+          const parts = text.split(/^---\s*$/m);
+
+          if (parts.length < 3) return null;
+
+          const metadata = parts[1];
+          const body = parts.slice(2).join('---').trim();
+
+          return {
+            title: getField(metadata, 'title') || file.name,
+            date: getField(metadata, 'date'),
+            category: getField(metadata, 'category') || 'Новости',
+            description: getField(metadata, 'description'),
+            cover: getField(metadata, 'cover'),
+            body: body
+          };
+        })
+    );
+
+    const valid = articles
+      .filter(Boolean)
+      .sort((a, b) => b.date.localeCompare(a.date));
+
+    if (!valid.length) return;
+
+    grid.innerHTML = valid.map(article => {
+      let cover = article.cover;
+
+      if (cover && !/^https?:\/\//i.test(cover)) {
+        cover = 'https://raw.githubusercontent.com/Julien-Barik/context-media/main/'
+          + cover.replace(/^\/+/, '');
+      }
+
+      if (!cover) {
+        cover = 'https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=700&q=80';
+      }
+
+      return `
+        <article class="card">
+          <img src="${escapeHTML(cover)}" alt="${escapeHTML(article.title)}">
+          <div class="tag">${escapeHTML(article.category)}</div>
+          <h3>${escapeHTML(article.title)}</h3>
+          <p class="desc">${escapeHTML(article.description)}</p>
+          <p class="meta">${escapeHTML(article.date)}</p>
+          <details>
+            <summary>Читать статью</summary>
+            <p class="desc">${escapeHTML(article.body).replace(/\n/g, '<br>')}</p>
+          </details>
+        </article>
+      `;
+    }).join('');
+
+  } catch (error) {
+    console.error('Не удалось загрузить публикации:', error);
+  }
+})();
+</script>
 </body>
 </html>
