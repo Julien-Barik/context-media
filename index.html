@@ -680,35 +680,37 @@ footer {
 
   const matchesSearch = searchable.includes(query);
 
-  const category = String(article.category || '')
-    .trim()
-    .toLowerCase();
+ const category = String(article.category || '').trim().toLowerCase();
 
-  let normalizedCategory = category;
+const categoryAliases = {
+  'новини': 'новини',
+  'новости': 'новини',
+  'news': 'новини',
+  'політика': 'політика',
+  'политика': 'політика',
+  'politics': 'політика',
+  'світ': 'світ',
+  'мир': 'світ',
+  'world': 'світ',
+  'спорт': 'спорт',
+  'sports': 'спорт',
+  'тварини': 'тварини',
+  'животные': 'тварини',
+  'animals': 'тварини',
+  'їжа без меж': 'їжа без меж',
+  'food without borders': 'їжа без меж',
+  'кулинария': 'їжа без меж',
+  'cooking': 'їжа без меж'
+};
 
-  if (['новини', 'новости', 'news'].includes(category)) {
-    normalizedCategory = 'новини';
-  } else if (['політика', 'политика', 'politics'].includes(category)) {
-    normalizedCategory = 'політика';
-  } else if (['світ', 'мир', 'world'].includes(category)) {
-    normalizedCategory = 'світ';
-  } else if (['спорт', 'sports'].includes(category)) {
-    normalizedCategory = 'спорт';
-  } else if (['тварини', 'животные', 'animals'].includes(category)) {
-    normalizedCategory = 'тварини';
-  } else if ([
-    'їжа без меж',
-    'food without borders',
-    'кулинария',
-    'cooking'
-  ].includes(category)) {
-    normalizedCategory = 'їжа без меж';
-  }
+const normalizedCategory = categoryAliases[category] || category;
+const selectedCategory = String(activeCategory).trim().toLowerCase();
 
-  const matchesCategory =
-    activeCategory === 'all' ||
-    (activeCategory === 'video' && Boolean(article.video)) ||
-    normalizedCategory === activeCategory.toLowerCase();
+const matchesCategory =
+  selectedCategory === 'all' ||
+  (selectedCategory === 'video' && Boolean(article.video)) ||
+  normalizedCategory === (categoryAliases[selectedCategory] || selectedCategory);
+
 
   return matchesSearch && matchesCategory;
 });
