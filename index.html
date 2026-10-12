@@ -246,6 +246,7 @@ footer{margin-top:35px;border-top:2px solid;padding-top:25px;padding-bottom:40px
     console.error('Не удалось загрузить публикации:', error);
   }
 })();
+ 
 function setLanguage(lang) {
   document.documentElement.lang = lang;
 
@@ -253,12 +254,18 @@ function setLanguage(lang) {
     element.textContent = element.getAttribute('data-' + lang);
   });
 
-  document.getElementById('lang-uk').classList.toggle('active', lang === 'uk');
-  document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+  var ukButton = document.getElementById('lang-uk');
+  var enButton = document.getElementById('lang-en');
 
-  localStorage.setItem('pesnews-language', lang);
+  if (ukButton) ukButton.classList.toggle('active', lang === 'uk');
+  if (enButton) enButton.classList.toggle('active', lang === 'en');
+
+  try {
+    localStorage.setItem('pesnews-language', lang);
+  } catch (error) {}
 }
- document.addEventListener('DOMContentLoaded', function() {
+
+document.addEventListener('DOMContentLoaded', function() {
   setLanguage(localStorage.getItem('pesnews-language') || 'uk');
 });
 </script>
