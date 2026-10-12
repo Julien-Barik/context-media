@@ -1,279 +1,823 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="uk">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="CONTEXT-MEDIA — новости, аналитика, общество, культура и видео.">
-<title>CONTEXT-MEDIA — Новости и видео</title>
+<meta name="theme-color" content="#101010">
+<meta name="description" content="PESNEWS — новини, історії та відео.">
+<title>PESNEWS — Новини без зайвого</title>
+
 <style>
-*{box-sizing:border-box}
-:root{--bg:#f5f4f0;--text:#171717;--muted:#777;--red:#e6392e;--line:#d9d7d1}
-body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,Helvetica,sans-serif}
-a{color:inherit;text-decoration:none}
-header,main,footer{max-width:1250px;margin:auto;padding-left:24px;padding-right:24px}
-.top{display:flex;justify-content:space-between;gap:10px;padding:20px 0 14px;font-size:11px;color:var(--muted);letter-spacing:1px}
-.logo{text-align:center;font-family:Georgia,serif;font-weight:900;font-size:clamp(35px,8vw,88px);letter-spacing:-3px;padding:18px 0 25px}
-.logo span{color:var(--red)}
-nav{display:flex;justify-content:center;flex-wrap:wrap;gap:23px;padding:16px 5px;border-top:1px solid;border-bottom:1px solid;font-size:11px;font-weight:bold;letter-spacing:1px}
-nav a:hover{color:var(--red)}
+:root {
+  --bg: #101010;
+  --panel: #191919;
+  --panel2: #222;
+  --text: #f5f5f5;
+  --muted: #a3a3a3;
+  --accent: #ff4d36;
+  --line: #303030;
+  --radius: 14px;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 1.5;
+}
+
+a { color: inherit; text-decoration: none; }
+
+button, input { font: inherit; }
+
+button { cursor: pointer; }
+
+.wrap {
+  width: min(1200px, calc(100% - 36px));
+  margin: auto;
+}
+
+.topline {
+  background: var(--accent);
+  color: white;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  padding: 7px 0;
+  text-transform: uppercase;
+}
+
+header {
+  border-bottom: 1px solid var(--line);
+  background: #101010;
+}
+
+.header-inner {
+  min-height: 82px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.logo {
+  font-size: 31px;
+  font-weight: 950;
+  letter-spacing: -1.8px;
+  white-space: nowrap;
+}
+
+.logo span { color: var(--accent); }
+
+nav {
+  display: flex;
+  gap: 23px;
+  align-items: center;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+nav a:hover { color: var(--accent); }
+
 .languages {
-display: flex;
-justify-content: center;
-align-items: center;
-gap: 10px;
-margin: 0 0 14px;
-font-size: 12px;
+  display: flex;
+  gap: 5px;
 }
 
 .languages button {
-border: 0;
-background: transparent;
-color: var(–muted);
-cursor: pointer;
-font-weight: bold;
-padding: 6px;
+  background: transparent;
+  border: 1px solid var(--line);
+  color: var(--muted);
+  border-radius: 6px;
+  padding: 7px 9px;
+  font-size: 12px;
+  font-weight: 800;
 }
 
 .languages button.active {
-color: var(–red);
+  background: var(--accent);
+  color: white;
+  border-color: var(--accent);
 }
-  main{padding-top:28px}
-.label{font-size:11px;font-weight:bold;letter-spacing:2px;text-transform:uppercase;border-bottom:2px solid;padding-bottom:12px;margin-bottom:22px}
-.hero{display:grid;grid-template-columns:1.2fr 1fr;gap:30px;padding-bottom:35px;border-bottom:1px solid var(--line)}
-.hero img{width:100%;height:360px;object-fit:cover;display:block;background:#ddd}
-.tag{color:var(--red);font-size:11px;font-weight:bold;text-transform:uppercase;letter-spacing:1px;margin:15px 0 10px}
-h1,h2,h3{font-family:Georgia,serif;margin-top:0}
-h1{font-size:clamp(32px,4.7vw,58px);line-height:1.04;letter-spacing:-1px;margin-bottom:18px}
-.desc{font-size:15px;line-height:1.7;color:#555}
-.meta{font-size:10px;color:var(--muted);letter-spacing:1px}
-.section{margin-top:36px}
-.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:25px}
-.card{padding-bottom:20px;border-bottom:1px solid var(--line)}
-.card img{width:100%;aspect-ratio:16/10;object-fit:cover;background:#ddd;display:block}
-.card h3{font-size:24px;line-height:1.15;margin-bottom:10px}
-.video{background:#191919;color:white;padding:28px;margin-top:45px}
-.video h2{font-size:38px;margin-bottom:10px}
-.video p{color:#ccc;line-height:1.6}
-.video-placeholder{margin-top:22px;background:#292929;min-height:200px;display:flex;align-items:center;justify-content:center;text-align:center}
-.play{font-size:48px;color:var(--red)}
-footer{margin-top:35px;border-top:2px solid;padding-top:25px;padding-bottom:40px;display:flex;justify-content:space-between;gap:15px;flex-wrap:wrap;font-size:11px;color:var(--muted)}
-@media(max-width:700px){header,main,footer{padding-left:16px;padding-right:16px}.top{font-size:9px}.logo{letter-spacing:-2px}nav{gap:15px;font-size:10px}.hero{grid-template-columns:1fr;gap:8px}.hero img{height:240px}.grid{grid-template-columns:1fr;gap:25px}.card h3{font-size:26px}.video{padding:20px}.video h2{font-size:32px}}
+
+.breaking {
+  padding: 17px 0;
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  overflow: hidden;
+}
+
+.breaking-label {
+  flex-shrink: 0;
+  background: var(--accent);
+  border-radius: 4px;
+  padding: 5px 9px;
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 1px;
+}
+
+.breaking-text {
+  color: #dedede;
+  font-size: 13px;
+}
+
+.hero {
+  padding: 40px 0 30px;
+}
+
+.section-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 22px;
+}
+
+.section-heading h2 {
+  margin: 0;
+  font-size: 23px;
+  letter-spacing: -0.6px;
+}
+
+.section-heading h2:before {
+  content: "";
+  display: inline-block;
+  width: 5px;
+  height: 23px;
+  background: var(--accent);
+  margin-right: 11px;
+  vertical-align: -4px;
+  border-radius: 3px;
+}
+
+.live {
+  color: var(--accent);
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 1.4px;
+}
+
+.feature {
+  min-height: 350px;
+  display: grid;
+  grid-template-columns: 1.25fr 1fr;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--panel);
+}
+
+.feature-image {
+  min-height: 350px;
+  background: #292929;
+  position: relative;
+}
+
+.feature-image img {
+  width: 100%;
+  height: 100%;
+  min-height: 350px;
+  position: absolute;
+  inset: 0;
+  object-fit: cover;
+}
+
+.feature-copy {
+  padding: 35px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.eyebrow {
+  color: var(--accent);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1.6px;
+  font-weight: 900;
+}
+
+.feature h1 {
+  font-size: clamp(28px, 4vw, 43px);
+  line-height: 1.12;
+  letter-spacing: -1.5px;
+  margin: 14px 0;
+}
+
+.feature p {
+  color: var(--muted);
+  margin: 0 0 20px;
+  font-size: 15px;
+}
+
+.primary-button {
+  display: inline-block;
+  background: var(--accent);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 12px 17px;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.primary-button:hover { opacity: .85; }
+
+.news-section { padding: 22px 0 55px; }
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  margin-bottom: 22px;
+}
+
+.search {
+  width: min(340px, 100%);
+  background: var(--panel);
+  border: 1px solid var(--line);
+  color: white;
+  border-radius: 7px;
+  padding: 11px 13px;
+  outline: none;
+}
+
+.search:focus { border-color: var(--accent); }
+
+.news-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 22px;
+}
+
+.card {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+  min-width: 0;
+  transition: transform .2s, border-color .2s;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  border-color: #555;
+}
+
+.card-image {
+  height: 205px;
+  position: relative;
+  background: #252525;
+  overflow: hidden;
+}
+
+.card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform .3s;
+}
+
+.card:hover .card-image img { transform: scale(1.035); }
+
+.card-content { padding: 19px; }
+
+.tag {
+  display: inline-block;
+  color: var(--accent);
+  font-size: 10px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 1.1px;
+  margin-bottom: 10px;
+}
+
+.card h3 {
+  font-size: 21px;
+  line-height: 1.25;
+  letter-spacing: -.5px;
+  margin: 0 0 10px;
+  overflow-wrap: anywhere;
+}
+
+.card-description {
+  font-size: 14px;
+  color: var(--muted);
+  margin: 0 0 17px;
+  overflow-wrap: anywhere;
+}
+
+.card-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  color: var(--muted);
+  font-size: 11px;
+  border-top: 1px solid var(--line);
+  padding-top: 13px;
+}
+
+.read-button {
+  border: none;
+  padding: 0;
+  color: var(--accent);
+  background: none;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.article-body {
+  border-top: 1px solid var(--line);
+  padding-top: 15px;
+  margin-top: 15px;
+  font-size: 14px;
+  overflow-wrap: anywhere;
+}
+
+.article-body p { white-space: pre-wrap; }
+
+.video-container {
+  margin-top: 16px;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: 8px;
+  background: black;
+}
+
+.video-container iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.status {
+  color: var(--muted);
+  text-align: center;
+  padding: 35px 15px;
+  border: 1px dashed var(--line);
+  border-radius: var(--radius);
+  grid-column: 1 / -1;
+}
+
+footer {
+  border-top: 1px solid var(--line);
+  padding: 30px 0;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.footer-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+}
+
+.footer-logo {
+  color: white;
+  font-size: 20px;
+  font-weight: 950;
+}
+
+.footer-logo span { color: var(--accent); }
+
+@media (max-width: 850px) {
+  nav { gap: 12px; }
+  .feature { grid-template-columns: 1fr; }
+  .feature-image, .feature-image img { min-height: 240px; }
+  .feature-copy { padding: 25px; }
+  .news-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 560px) {
+  .wrap { width: calc(100% - 26px); }
+  .header-inner { min-height: 72px; flex-wrap: wrap; padding: 13px 0; }
+  .logo { font-size: 27px; }
+  nav { order: 3; width: 100%; justify-content: space-between; font-size: 12px; }
+  .breaking { padding: 12px 0; }
+  .breaking-text { font-size: 12px; }
+  .hero { padding-top: 25px; }
+  .feature-image, .feature-image img { min-height: 195px; }
+  .feature-copy { padding: 21px; }
+  .feature h1 { font-size: 30px; }
+  .section-heading h2 { font-size: 20px; }
+  .news-grid { grid-template-columns: 1fr; gap: 16px; }
+  .card-image { height: 220px; }
+  .toolbar { align-items: stretch; flex-direction: column; }
+  .search { width: 100%; }
+  .footer-inner { flex-direction: column; align-items: flex-start; }
+}
 </style>
 </head>
+
 <body>
+
+<div class="topline">
+  <div class="wrap" data-uk="Новини • Люди • Події • Відео"
+       data-en="News • People • Events • Video">
+    Новини • Люди • Події • Відео
+  </div>
+</div>
+
 <header>
-<div class="top"><span>НЕЗАВИСИМОЕ МЕДИА</span><span>НОВОСТИ · АНАЛИТИКА · ВИДЕО</span></div>
-<div class="logo">CONTEXT<span>-</span>MEDIA</div>
-<div class="languages">
-  <button type="button" id="lang-uk" class="active" onclick="setLanguage('uk')">УКР</button>
-  <span>|</span>
-  <button type="button" id="lang-en" onclick="setLanguage('en')">ENG</button>
-</div>
-  <nav>
-  <a href="#news" data-uk="НОВИНИ" data-en="NEWS">НОВИНИ</a>
-  <a href="#analysis" data-uk="АНАЛІТИКА" data-en="ANALYSIS">АНАЛІТИКА</a>
-  <a href="#society" data-uk="СУСПІЛЬСТВО" data-en="SOCIETY">СУСПІЛЬСТВО</a>
-  <a href="#culture" data-uk="КУЛЬТУРА" data-en="CULTURE">КУЛЬТУРА</a>
-  <a href="#world" data-uk="СВІТ" data-en="WORLD">СВІТ</a>
-  <a href="#video" data-uk="ВІДЕО" data-en="VIDEO">ВІДЕО</a>
-</nav>
+  <div class="wrap header-inner">
+    <a class="logo" href="#">PES<span>NEWS</span></a>
+
+    <nav>
+      <a href="#home" data-uk="Головна" data-en="Home">Головна</a>
+      <a href="#news" data-uk="Новини" data-en="News">Новини</a>
+      <a href="#videos" data-uk="Відео" data-en="Videos">Відео</a>
+    </nav>
+
+    <div class="languages">
+      <button id="lang-uk" class="active" type="button">UA</button>
+      <button id="lang-en" type="button">EN</button>
+    </div>
+  </div>
 </header>
-<main>
-<div class="label">ГЛАВНОЕ</div>
-<section class="hero">
-<div><img src="https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1200&q=85" alt="Современный город и работа"></div>
-<article>
-<div class="tag">ТОЧКА ЗРЕНИЯ</div>
-<h1>Мир меняется. Важно понимать почему.</h1>
-<p class="desc">Новости, люди и идеи, которые формируют наше время. Не просто сообщаем, что произошло, — разбираемся в контексте.</p>
-<p class="meta">CONTEXT-MEDIA · РЕДАКЦИОННЫЙ МАТЕРИАЛ</p>
-</article>
-</section>
-<section class="section" id="news">
-<div class="label">ПОСЛЕДНИЕ ПУБЛИКАЦИИ</div>
-<div class="grid">
-<article class="card">
-<img src="https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=700&q=80" alt="Новости">
-<div class="tag">НОВОСТИ</div><h3>События, которые определяют сегодняшний день</h3>
-<p class="desc">Главное из происходящего — коротко и по существу.</p><p class="meta">НОВОСТИ · ОБЗОР</p>
-</article>
-<article class="card" id="analysis">
-<img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=700&q=80" alt="Аналитика">
-<div class="tag">АНАЛИТИКА</div><h3>За пределами громких заголовков</h3>
-<p class="desc">Факты, аргументы и разные точки зрения на важные вопросы.</p><p class="meta">АНАЛИТИКА · МНЕНИЯ</p>
-</article>
-<article class="card" id="society">
-<img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=700&q=80" alt="Общество">
-<div class="tag">ОБЩЕСТВО</div><h3>Люди и перемены вокруг нас</h3>
-<p class="desc">Истории людей и процессы, меняющие повседневную жизнь.</p><p class="meta">ОБЩЕСТВО · ИСТОРИИ</p>
-</article>
-<article class="card" id="culture">
-<img src="https://images.unsplash.com/photo-1513364776144-60967b0f800f?auto=format&fit=crop&w=700&q=80" alt="Искусство">
-<div class="tag">КУЛЬТУРА</div><h3>Искусство, кино и идеи</h3>
-<p class="desc">О книгах, кино, творчестве и культурных событиях.</p><p class="meta">КУЛЬТУРА · ОБЗОРЫ</p>
-</article>
-<article class="card" id="world">
-<img src="https://images.unsplash.com/photo-1521295121783-8a321d551ad2?auto=format&fit=crop&w=700&q=80" alt="Город">
-<div class="tag">МИР</div><h3>Международная повестка без упрощений</h3>
-<p class="desc">Страны, события и глобальные тенденции.</p><p class="meta">МИР · СОБЫТИЯ</p>
-</article>
-<article class="card">
-<img src="https://images.unsplash.com/photo-1492619375914-88005aa9e8fb?auto=format&fit=crop&w=700&q=80" alt="Видеокамера">
-<div class="tag">МУЛЬТИМЕДИА</div><h3>Истории, которые нужно увидеть</h3>
-<p class="desc">Интервью, репортажи и авторские видеопроекты.</p><p class="meta">ВИДЕО · РЕПОРТАЖИ</p>
-</article>
+
+<div class="wrap breaking">
+  <span class="breaking-label" data-uk="PESNEWS" data-en="PESNEWS">PESNEWS</span>
+  <span class="breaking-text"
+        data-uk="Головне — те, що відбувається."
+        data-en="The stories that matter.">
+    Головне — те, що відбувається.
+  </span>
 </div>
-</section>
-<section class="video" id="video">
-<div class="tag">СМОТРИТЕ</div>
-<h2>CONTEXT-MEDIA VIDEO</h2>
-<p>Интервью, репортажи, документальные истории и авторские проекты.</p>
-<div class="video-placeholder"><div><div class="play">▶</div><p>ВИДЕОРАЗДЕЛ</p></div></div>
-</section>
+
+<main>
+  <section class="wrap hero" id="home">
+    <div class="section-heading">
+      <h2 data-uk="У центрі уваги" data-en="In the spotlight">У центрі уваги</h2>
+      <span class="live">● LIVE NEWS</span>
+    </div>
+
+    <div class="feature">
+      <div class="feature-image">
+        <img
+          src="https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=1200&q=85"
+          alt="News"
+          id="feature-image">
+      </div>
+
+      <div class="feature-copy">
+        <span class="eyebrow" data-uk="МЕДІА НОВОГО ПОКОЛІННЯ"
+              data-en="A NEW GENERATION OF MEDIA">МЕДІА НОВОГО ПОКОЛІННЯ</span>
+
+        <h1 data-uk="Світ змінюється. Будь у курсі."
+            data-en="The world changes. Stay informed.">
+          Світ змінюється. Будь у курсі.
+        </h1>
+
+        <p data-uk="Новини, цікаві історії та відео в одному місці."
+           data-en="News, compelling stories and videos in one place.">
+          Новини, цікаві історії та відео в одному місці.
+        </p>
+
+        <a class="primary-button" href="#news"
+           data-uk="ЧИТАТИ НОВИНИ →" data-en="READ THE NEWS →">
+          ЧИТАТИ НОВИНИ →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap news-section" id="news">
+    <div class="section-heading">
+      <h2 data-uk="Останні публікації" data-en="Latest stories">Останні публікації</h2>
+      <span class="live" data-uk="СВІЖЕ" data-en="LATEST">СВІЖЕ</span>
+    </div>
+
+    <div class="toolbar">
+      <span style="color:var(--muted);font-size:13px"
+            data-uk="Новини та авторські матеріали"
+            data-en="News and original stories">
+        Новини та авторські матеріали
+      </span>
+
+      <input class="search" id="search" type="search"
+             placeholder="Пошук новин..."
+             aria-label="Search news">
+    </div>
+
+    <div class="news-grid" id="news-grid">
+      <div class="status" data-uk="Завантажуємо публікації…"
+           data-en="Loading stories…">Завантажуємо публікації…</div>
+    </div>
+  </section>
 </main>
+
 <footer>
-<div><strong>CONTEXT-MEDIA</strong><br>Новости. Аналитика. Контекст.</div>
-<div>© 2026 CONTEXT-MEDIA</div>
+  <div class="wrap footer-inner">
+    <div class="footer-logo">PES<span>NEWS</span></div>
+    <div data-uk="Новини, історії та відео."
+         data-en="News, stories and videos.">Новини, історії та відео.</div>
+    <div>© <span id="year"></span> PESNEWS</div>
+  </div>
 </footer>
+
 <script>
-(async function () {
-  const grid = document.querySelector('.grid');
-  if (!grid) return;
+(function () {
+  const grid = document.getElementById('news-grid');
+  const search = document.getElementById('search');
 
   const api = 'https://api.github.com/repos/Julien-Barik/pesnews/contents/content/news';
-  
+
+  const fallbackImage =
+    'https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=900&q=80';
+
+  let articles = [];
+  let currentLanguage = 'uk';
+
+  document.getElementById('year').textContent = new Date().getFullYear();
+
   function escapeHTML(value) {
-    return String(value || '').replace(/[&<>"']/g, function (c) {
+    return String(value ?? '').replace(/[&<>"']/g, function (char) {
       return {
         '&': '&amp;',
         '<': '&lt;',
         '>': '&gt;',
         '"': '&quot;',
         "'": '&#39;'
-      }[c];
+      }[char];
     });
   }
 
-  function getField(text, name) {
-    const match = text.match(
-      new RegExp('^' + name + ':\\s*(.*)$', 'm')
-    );
-    return match
-      ? match[1].trim().replace(/^["']|["']$/g, '')
-      : '';
+  function parseArticle(text, filename) {
+    let metadata = {};
+    let body = text.trim();
+
+    const normalized = text.replace(/^\uFEFF/, '');
+    const frontmatter = normalized.match(/^---\s*\r?\n([\s\S]*?)\r?\n---\s*(?:\r?\n|$)/);
+
+    if (frontmatter) {
+      frontmatter[1].split(/\r?\n/).forEach(function (line) {
+        const match = line.match(/^([a-zA-Z0-9_-]+)\s*:\s*(.*)$/);
+
+        if (match) {
+          let value = match[2].trim();
+
+          if (
+            (value.startsWith('"') && value.endsWith('"')) ||
+            (value.startsWith("'") && value.endsWith("'"))
+          ) {
+            value = value.slice(1, -1);
+          }
+
+          metadata[match[1]] = value;
+        }
+      });
+
+      body = normalized.slice(frontmatter[0].length).trim();
+    }
+
+    return {
+      title: metadata.title || filename.replace(/\.md$/i, ''),
+      title_en: metadata.title_en || '',
+      date: metadata.date || '',
+      category: metadata.category || 'Новини',
+      category_en: metadata.category_en || 'News',
+      description: metadata.description || '',
+      description_en: metadata.description_en || '',
+      cover: metadata.cover || '',
+      video: metadata.video || '',
+      body: body,
+      body_en: metadata.body_en || ''
+    };
   }
 
-  try {
-    const response = await fetch(api);
-    if (!response.ok) throw new Error('Не удалось загрузить список');
+  function videoEmbed(url) {
+    if (!url) return '';
 
-    const files = await response.json();
-    const articles = await Promise.all(
-      files
-        .filter(file => file.name.endsWith('.md'))
-        .map(async file => {
-          const res = await fetch(file.download_url);
-          if (!res.ok) return null;
+    let id = '';
 
-           const text = await res.text();
-          const parts = text.split(/^---\s*$/m);
+    try {
+      const parsed = new URL(url);
 
-          if (parts.length < 3) return null;
+      if (parsed.hostname.includes('youtu.be')) {
+        id = parsed.pathname.split('/').filter(Boolean)[0] || '';
+      } else if (parsed.hostname.includes('youtube.com')) {
+        id = parsed.searchParams.get('v') || '';
 
-          const metadata = parts[1];
-          const body = parts.slice(2).join('---').trim();
+        if (!id) {
+          const parts = parsed.pathname.split('/').filter(Boolean);
+          const marker = parts.findIndex(function (part) {
+            return ['shorts', 'embed', 'live'].includes(part);
+          });
 
-          return {
-              title: getField(metadata, 'title') || file.name,
-              title_en: getField(metadata, 'title_en'),
-              date: getField(metadata, 'date'),
-              category: getField(metadata, 'category') || 'Новини',
-              description: getField(metadata, 'description'),
-              description_en: getField(metadata, 'description_en'),
-              cover: getField(metadata, 'cover'),
-              video: getField(metadata, 'video'),
-              body: body,
-              body_en: getField(metadata, 'body_en')
-          };
-        })
-    );
-
-    const valid = articles
-      .filter(Boolean)
-
-      .sort((a, b) => b.date.localeCompare(a.date));
-
-    if (!valid.length) return;
-
-   grid.innerHTML = valid.map(article => {
-   const lang = document.documentElement.lang || 'uk';
-   const title = lang === 'en' ? (article.title_en || article.title) : article.title;
-   const category = article.category;
-   const description = lang === 'en' ? (article.description_en || article.description) : article.description;
-   const body = lang === 'en' ? (article.body_en || article.body) : article.body;
-      let cover = article.cover;
-
-      if (cover && !/^https?:\/\//i.test(cover)) {
-        cover = 'https://raw.githubusercontent.com/Julien-Barik/context-media/main/'
-          + cover.replace(/^\/+/, '');
+          if (marker !== -1) id = parts[marker + 1] || '';
+        }
       }
+    } catch (error) {
+      return '';
+    }
 
-      if (!cover) {
-        cover = 'https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=700&q=80';
-      }
+    if (!/^[a-zA-Z0-9_-]{11}$/.test(id)) return '';
 
-      return `
-        <article class="card">
-          <img src="${escapeHTML(cover)}" alt="${escapeHTML(article.title)}">
-          <div class="tag">${escapeHTML(category)}</div>
-          <h3 data-uk="${escapeHTML(article.title)}" data-en="${escapeHTML(article.title_en || article.title)}">${escapeHTML(title)}</h3>
-          <p class="desc" data-uk="${escapeHTML(article.description || '')}" data-en="${escapeHTML(article.description_en || article.description || '')}">${escapeHTML(description || '')}</p>
-          <p class="meta">${escapeHTML(article.date)}</p>
-          <details>
-            <summary>Читать статью</summary>
-           <p class="desc" data-uk="${escapeHTML(article.body || '')}" data-en="${escapeHTML(article.body_en || article.body || '')}">${escapeHTML(body).replace(/\n/g, '<br>')}</p>
-         
-          ${article.video ? `
-  <div class="video-container">
-    <iframe
-      src="https://www.youtube-nocookie.com/embed/${article.video.match(/(?:v=|youtu\.be\/|shorts\/)([a-zA-Z0-9_-]{11})/)?.[1] || ''}"
-      title="Видео ПесNews"
-      frameborder="0"
-      allowfullscreen>
-    </iframe>
-  </div>
-` : ''}
-          </details>
-        </article>
-      `;
+    return '<div class="video-container">' +
+      '<iframe src="https://www.youtube-nocookie.com/embed/' + id +
+      '" title="PESNEWS video" loading="lazy" allowfullscreen ' +
+      'referrerpolicy="strict-origin-when-cross-origin"></iframe></div>';
+  }
+
+  function getText(article, field) {
+    if (currentLanguage === 'en') {
+      const english = article[field + '_en'];
+      return english || article[field] || '';
+    }
+
+    return article[field] || '';
+  }
+
+  function render() {
+    const query = search.value.trim().toLowerCase();
+
+    const filtered = articles.filter(function (article) {
+      const searchable = [
+        article.title,
+        article.title_en,
+        article.description,
+        article.description_en,
+        article.body,
+        article.body_en,
+        article.category,
+        article.category_en
+      ].join(' ').toLowerCase();
+
+      return searchable.includes(query);
+    });
+
+    if (!filtered.length) {
+      grid.innerHTML = '<div class="status">' +
+        (currentLanguage === 'en'
+          ? 'No publications found.'
+          : 'Публікацій не знайдено.') +
+        '</div>';
+      return;
+    }
+
+    grid.innerHTML = filtered.map(function (article, index) {
+      const title = getText(article, 'title');
+      const description = getText(article, 'description');
+      const body = getText(article, 'body');
+      const category = currentLanguage === 'en'
+        ? article.category_en || article.category
+        : article.category;
+
+      const image = article.cover || fallbackImage;
+      const date = article.date ? escapeHTML(article.date) : '';
+
+      const bodyHTML = body
+        ? '<p>' + escapeHTML(body).replace(/\r?\n/g, '<br>') + '</p>'
+        : '';
+
+      const videoHTML = videoEmbed(article.video);
+
+      return '<article class="card" id="' + (index === 0 ? 'videos' : '') + '">' +
+        '<div class="card-image">' +
+          '<img src="' + escapeHTML(image) + '" alt="' + escapeHTML(title) +
+          '" loading="lazy" onerror="this.onerror=null;this.src=\'' + fallbackImage + '\'">' +
+        '</div>' +
+        '<div class="card-content">' +
+          '<div class="tag">' + escapeHTML(category) + '</div>' +
+          '<h3>' + escapeHTML(title) + '</h3>' +
+          (description
+            ? '<p class="card-description">' + escapeHTML(description) + '</p>'
+            : '') +
+          '<div class="card-meta">' +
+            '<span>' + date + '</span>' +
+            '<button class="read-button" type="button" aria-expanded="false">' +
+              (currentLanguage === 'en' ? 'READ MORE +' : 'ЧИТАТИ ДАЛІ +') +
+            '</button>' +
+          '</div>' +
+          '<div class="article-body" hidden>' +
+            bodyHTML + videoHTML +
+          '</div>' +
+        '</div>' +
+      '</article>';
     }).join('');
 
-  } catch (error) {
-    console.error('Не удалось загрузить публикации:', error);
-  }
-})();
- 
-function setLanguage(lang) {
-  document.documentElement.lang = lang;
+    grid.querySelectorAll('.read-button').forEach(function (button) {
+      button.addEventListener('click', function () {
+        const body = button.closest('.card-content').querySelector('.article-body');
+        const opening = body.hidden;
 
-  document.querySelectorAll('[data-uk][data-en]').forEach(function(element) {
-    element.textContent = element.getAttribute('data-' + lang);
+        body.hidden = !opening;
+        button.setAttribute('aria-expanded', String(opening));
+        button.textContent = opening
+          ? (currentLanguage === 'en' ? 'SHOW LESS −' : 'ЗГОРНУТИ −')
+          : (currentLanguage === 'en' ? 'READ MORE +' : 'ЧИТАТИ ДАЛІ +');
+      });
+    });
+  }
+
+  async function loadArticles() {
+    try {
+      const response = await fetch(api, {
+        headers: { Accept: 'application/vnd.github+json' }
+      });
+
+      if (!response.ok) {
+        throw new Error('GitHub API: ' + response.status);
+      }
+
+      const files = await response.json();
+
+      if (!Array.isArray(files)) {
+        throw new Error('Unexpected API response');
+      }
+
+      const markdownFiles = files.filter(function (file) {
+        return file.type === 'file' && /\.md$/i.test(file.name);
+      });
+
+      const results = await Promise.all(markdownFiles.map(async function (file) {
+        const response = await fetch(file.download_url);
+
+        if (!response.ok) return null;
+
+        const text = await response.text();
+        return parseArticle(text, file.name);
+      }));
+
+      articles = results.filter(Boolean);
+
+      articles.sort(function (a, b) {
+        return (b.date || '').localeCompare(a.date || '');
+      });
+
+      if (!articles.length) {
+        grid.innerHTML = '<div class="status">' +
+          (currentLanguage === 'en'
+            ? 'No stories yet. Add a Markdown file to content/news on GitHub.'
+            : 'Поки немає публікацій. Додайте Markdown-файл у content/news на GitHub.') +
+          '</div>';
+        return;
+      }
+
+      render();
+    } catch (error) {
+      console.error('PESNEWS loading error:', error);
+
+      grid.innerHTML = '<div class="status">' +
+        (currentLanguage === 'en'
+          ? 'Could not load the news. Please refresh the page later.'
+          : 'Не вдалося завантажити новини. Спробуйте оновити сторінку пізніше.') +
+        '</div>';
+    }
+  }
+
+  function setLanguage(language) {
+    currentLanguage = language;
+    document.documentElement.lang = language;
+
+    document.querySelectorAll('[data-uk][data-en]').forEach(function (element) {
+      element.textContent = element.getAttribute('data-' + language);
+    });
+
+    document.getElementById('lang-uk').classList.toggle('active', language === 'uk');
+    document.getElementById('lang-en').classList.toggle('active', language === 'en');
+
+    search.placeholder = language === 'en' ? 'Search news...' : 'Пошук новин...';
+    search.setAttribute('aria-label', search.placeholder);
+
+    try {
+      localStorage.setItem('pesnews-language', language);
+    } catch (error) {}
+
+    render();
+  }
+
+  document.getElementById('lang-uk').addEventListener('click', function () {
+    setLanguage('uk');
   });
 
-  var ukButton = document.getElementById('lang-uk');
-  var enButton = document.getElementById('lang-en');
+  document.getElementById('lang-en').addEventListener('click', function () {
+    setLanguage('en');
+  });
 
-  if (ukButton) ukButton.classList.toggle('active', lang === 'uk');
-  if (enButton) enButton.classList.toggle('active', lang === 'en');
+  search.addEventListener('input', render);
 
   try {
-    localStorage.setItem('pesnews-language', lang);
-  } catch (error) {}
-}
+    currentLanguage = localStorage.getItem('pesnews-language') || 'uk';
+  } catch (error) {
+    currentLanguage = 'uk';
+  }
 
-document.addEventListener('DOMContentLoaded', function() {
-  setLanguage(localStorage.getItem('pesnews-language') || 'uk');
-});
+  setLanguage(currentLanguage);
+  loadArticles();
+})();
 </script>
+
 </body>
 </html>
