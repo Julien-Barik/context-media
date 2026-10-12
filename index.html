@@ -207,9 +207,9 @@ footer{margin-top:35px;border-top:2px solid;padding-top:25px;padding-bottom:40px
 
    grid.innerHTML = valid.map(article => {
    const lang = document.documentElement.lang || ‘uk’;
-   const title = lang === ‘en’ ? (article.title_en || article.title) : article.title;
+   const title = lang === 'en' ? (article.title_en || article.title) : article.title;
    const category = article.category;
-   const description = lang === ‘en’ ? (article.description_en || article.description) : article.description;
+   const description = lang === 'en' ? (article.description_en || article.description) : article.description;
    const body = lang === 'en' ? (article.body_en || article.body) : article.body;
       let cover = article.cover;
 
