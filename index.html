@@ -175,7 +175,7 @@ footer{margin-top:35px;border-top:2px solid;padding-top:25px;padding-bottom:40px
           const res = await fetch(file.download_url);
           if (!res.ok) return null;
 
-          const text = await res.text();
+           const text = await res.text();
           const parts = text.split(/^---\s*$/m);
 
           if (parts.length < 3) return null;
@@ -184,22 +184,23 @@ footer{margin-top:35px;border-top:2px solid;padding-top:25px;padding-bottom:40px
           const body = parts.slice(2).join('---').trim();
 
           return {
-              title: getField(metadata, ‘title’) || file.name,
-              title_en: getField(metadata, ‘title_en’),
-              date: getField(metadata, ‘date’),
-              category: getField(metadata, ‘category’) || ‘Новини’,
-              description: getField(metadata, ‘description’),
-              description_en: getField(metadata, ‘description_en’),
-              cover: getField(metadata, ‘cover’),
-              video: getField(metadata, ‘video’),
+              title: getField(metadata, 'title') || file.name,
+              title_en: getField(metadata, 'title_en'),
+              date: getField(metadata, 'date'),
+              category: getField(metadata, 'category') || 'Новини',
+              description: getField(metadata, 'description'),
+              description_en: getField(metadata, 'description_en'),
+              cover: getField(metadata, 'cover'),
+              video: getField(metadata, 'video'),
               body: body,
-              body_en: getField(metadata, ‘body_en’)
-        };
+              body_en: getField(metadata, 'body_en')
+          };
         })
     );
 
     const valid = articles
       .filter(Boolean)
+
       .sort((a, b) => b.date.localeCompare(a.date));
 
     if (!valid.length) return;
