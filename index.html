@@ -226,12 +226,12 @@ footer{margin-top:35px;border-top:2px solid;padding-top:25px;padding-bottom:40px
         <article class="card">
           <img src="${escapeHTML(cover)}" alt="${escapeHTML(article.title)}">
           <div class="tag">${escapeHTML(category)}</div>
-          <h3>${escapeHTML(title)}</h3>
-          <p class="desc">${escapeHTML(description)}</p>
+          <h3 data-uk="${escapeHTML(article.title)}" data-en="${escapeHTML(article.title_en || article.title)}">${escapeHTML(title)}</h3>
+          <p class="desc" data-uk="${escapeHTML(article.description || '')}" data-en="${escapeHTML(article.description_en || article.description || '')}">${escapeHTML(description || '')}</p>
           <p class="meta">${escapeHTML(article.date)}</p>
           <details>
             <summary>Читать статью</summary>
-           <p class="desc">${escapeHTML(body).replace(/\n/g, '<br>')}</p>
+           <p class="desc" data-uk="${escapeHTML(article.body || '')}" data-en="${escapeHTML(article.body_en || article.body || '')}">${escapeHTML(body).replace(/\n/g, '<br>')}</p>
          
           ${article.video ? `
   <div class="video-container">
