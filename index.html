@@ -16,7 +16,28 @@ header,main,footer{max-width:1250px;margin:auto;padding-left:24px;padding-right:
 .logo span{color:var(--red)}
 nav{display:flex;justify-content:center;flex-wrap:wrap;gap:23px;padding:16px 5px;border-top:1px solid;border-bottom:1px solid;font-size:11px;font-weight:bold;letter-spacing:1px}
 nav a:hover{color:var(--red)}
-main{padding-top:28px}
+.languages {
+display: flex;
+justify-content: center;
+align-items: center;
+gap: 10px;
+margin: 0 0 14px;
+font-size: 12px;
+}
+
+.languages button {
+border: 0;
+background: transparent;
+color: var(–muted);
+cursor: pointer;
+font-weight: bold;
+padding: 6px;
+}
+
+.languages button.active {
+color: var(–red);
+}
+  main{padding-top:28px}
 .label{font-size:11px;font-weight:bold;letter-spacing:2px;text-transform:uppercase;border-bottom:2px solid;padding-bottom:12px;margin-bottom:22px}
 .hero{display:grid;grid-template-columns:1.2fr 1fr;gap:30px;padding-bottom:35px;border-bottom:1px solid var(--line)}
 .hero img{width:100%;height:360px;object-fit:cover;display:block;background:#ddd}
@@ -43,7 +64,12 @@ footer{margin-top:35px;border-top:2px solid;padding-top:25px;padding-bottom:40px
 <header>
 <div class="top"><span>НЕЗАВИСИМОЕ МЕДИА</span><span>НОВОСТИ · АНАЛИТИКА · ВИДЕО</span></div>
 <div class="logo">CONTEXT<span>-</span>MEDIA</div>
-<nav>
+<div class="languages">
+  <button type="button" id="lang-uk" class="active" onclick="setLanguage('uk')">УКР</button>
+  <span>|</span>
+  <button type="button" id="lang-en" onclick="setLanguage('en')">ENG</button>
+</div>
+  <nav>
 <a href="#news">НОВОСТИ</a>
 <a href="#analysis">АНАЛИТИКА</a>
 <a href="#society">ОБЩЕСТВО</a>
