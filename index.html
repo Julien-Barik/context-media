@@ -163,6 +163,7 @@ footer{margin-top:35px;border-top:2px solid;padding-top:25px;padding-bottom:40px
             category: getField(metadata, 'category') || 'Новости',
             description: getField(metadata, 'description'),
             cover: getField(metadata, 'cover'),
+            video: getField(metadata, 'video'),
             body: body
           };
         })
@@ -196,6 +197,17 @@ footer{margin-top:35px;border-top:2px solid;padding-top:25px;padding-bottom:40px
           <details>
             <summary>Читать статью</summary>
             <p class="desc">${escapeHTML(article.body).replace(/\n/g, '<br>')}</p>
+         
+          ${article.video ? `
+  <div class="video-container">
+    <iframe
+      src="${article.video.replace('watch?v=', 'embed/').replace('youtu.be/', 'www.youtube.com/embed/')}"
+      title="Видео ПесNews"
+      frameborder="0"
+      allowfullscreen>
+    </iframe>
+  </div>
+` : ''}
           </details>
         </article>
       `;
