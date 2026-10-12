@@ -258,6 +258,9 @@ function setLanguage(lang) {
 
   localStorage.setItem('pesnews-language', lang);
 }
+ document.addEventListener('DOMContentLoaded', function() {
+  setLanguage(localStorage.getItem('pesnews-language') || 'uk');
+});
 </script>
 </body>
 </html>
