@@ -289,7 +289,28 @@ nav a:hover { color: var(--accent); }
 }
 
 .card:hover .card-image img { transform: scale(1.035); }
+.card-image.has-video {
+position: relative;
+}
 
+.video-play {
+position: absolute;
+top: 50%;
+left: 50%;
+transform: translate(-50%, -50%);
+width: 62px;
+height: 62px;
+display: flex;
+align-items: center;
+justify-content: center;
+padding-left: 4px;
+border-radius: 50%;
+background: rgba(255, 202, 40, 0.95);
+color: #101114;
+font-size: 25px;
+box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+pointer-events: none;
+}
 .card-content { padding: 19px; }
 
 .tag {
@@ -735,6 +756,7 @@ const matchesCategory =
         : article.category;
 
       const image = article.cover || fallbackImage;
+      const hasVideo = Boolean(article.video);
       const date = article.date ? escapeHTML(article.date) : '';
 
       const bodyHTML = body
@@ -743,11 +765,11 @@ const matchesCategory =
 
       const videoHTML = videoEmbed(article.video);
 
-      return '<article class="card" id="' + (index === 0 ? 'videos' : '') + '">' +
-        '<div class="card-image">' +
-          '<img src="' + escapeHTML(image) + '" alt="' + escapeHTML(title) +
-          '" loading="lazy" onerror="this.onerror=null;this.src=\'' + fallbackImage + '\'">' +
-        '</div>' +
+      return ‘’ +
+             ‘’ +
+             ‘’ +
+             (hasVideo ? ‘▶’ : ‘’) +
+             ‘’ +
         '<div class="card-content">' +
           '<div class="tag">' + escapeHTML(category) + '</div>' +
           '<h3>' + escapeHTML(title) + '</h3>' +
