@@ -210,7 +210,7 @@ footer{margin-top:35px;border-top:2px solid;padding-top:25px;padding-bottom:40px
    const title = lang === ‘en’ ? (article.title_en || article.title) : article.title;
    const category = article.category;
    const description = lang === ‘en’ ? (article.description_en || article.description) : article.description;
-   const body = lang === ‘en’ ? (article.body_en || article.body) : article.body;
+   const body = lang === 'en' ? (article.body_en || article.body) : article.body;
       let cover = article.cover;
 
       if (cover && !/^https?:\/\//i.test(cover)) {
@@ -231,7 +231,7 @@ footer{margin-top:35px;border-top:2px solid;padding-top:25px;padding-bottom:40px
           <p class="meta">${escapeHTML(article.date)}</p>
           <details>
             <summary>Читать статью</summary>
-            <p class="desc">${escapeHTML(.body).replace(/\n/g, '<br>')}</p>
+            <p class="desc">${escapeHTML(body).replace(/\n/g, '<br>')}</p>
          
           ${article.video ? `
   <div class="video-container">
