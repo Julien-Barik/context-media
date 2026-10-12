@@ -606,6 +606,7 @@ footer {
     }
 
     return {
+      filename: filename,
       title: metadata.title || filename.replace(/\.md$/i, ''),
       title_en: metadata.title_en || '',
       date: metadata.date || '',
@@ -755,9 +756,10 @@ const matchesCategory =
             : '') +
           '<div class="card-meta">' +
             '<span>' + date + '</span>' +
-            '<button class="read-button" type="button" aria-expanded="false">' +
-              (currentLanguage === 'en' ? 'READ MORE +' : 'ЧИТАТИ ДАЛІ +') +
-            '</button>' +
+            '<a class="read-button" href="article.html?file=' +
+                encodeURIComponent(article.filename || '') + '">' +
+                (currentLanguage === 'en' ? 'READ MORE +' : 'ЧИТАТИ ДАЛІ +') +
+              '</a>' +
           '</div>' +
           '<div class="article-body" hidden>' +
             bodyHTML + videoHTML +
@@ -766,18 +768,7 @@ const matchesCategory =
       '</article>';
     }).join('');
 
-    grid.querySelectorAll('.read-button').forEach(function (button) {
-      button.addEventListener('click', function () {
-        const body = button.closest('.card-content').querySelector('.article-body');
-        const opening = body.hidden;
-
-        body.hidden = !opening;
-        button.setAttribute('aria-expanded', String(opening));
-        button.textContent = opening
-          ? (currentLanguage === 'en' ? 'SHOW LESS −' : 'ЗГОРНУТИ −')
-          : (currentLanguage === 'en' ? 'READ MORE +' : 'ЧИТАТИ ДАЛІ +');
-      });
-    });
+    
   }
 
   async function loadArticles() {
