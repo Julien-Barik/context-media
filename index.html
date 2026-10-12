@@ -246,8 +246,12 @@ footer{margin-top:35px;border-top:2px solid;padding-top:25px;padding-bottom:40px
     console.error('Не удалось загрузить публикации:', error);
   }
 })();
-unction setLanguage(lang) {
+function setLanguage(lang) {
   document.documentElement.lang = lang;
+
+  document.querySelectorAll('[data-uk][data-en]').forEach(function(element) {
+    element.textContent = element.getAttribute('data-' + lang);
+  });
 
   document.getElementById('lang-uk').classList.toggle('active', lang === 'uk');
   document.getElementById('lang-en').classList.toggle('active', lang === 'en');
