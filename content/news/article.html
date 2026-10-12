@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b0b0b">
+  <title>PESNEWS — Стаття</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: #0b0b0b;
+      color: #f5f5f5;
+      font-family: Arial, sans-serif;
+      line-height: 1.7;
+    }
+
+    header {
+      padding: 22px 6%;
+      border-bottom: 1px solid #292929;
+    }
+
+    .logo {
+      color: #ff4d36;
+      font-size: 28px;
+      font-weight: 900;
+      text-decoration: none;
+      letter-spacing: -1px;
+    }
+
+    main {
+      max-width: 900px;
+      margin: 45px auto;
+      padding: 0 22px;
+    }
+
+    .back {
+      display: inline-block;
+      margin-bottom: 28px;
+      color: #ff604a;
+      text-decoration: none;
+    }
+
+    .category {
+      color: #ff604a;
+      font-size: 13px;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      font-size: clamp(30px, 5vw, 52px);
+      line-height: 1.15;
+      margin: 12px 0;
+    }
+
+    .date {
+      color: #999;
+      font-size: 14px;
+      margin-bottom: 28px;
+    }
+
+    .cover {
+      width: 100%;
+      max-height: 520px;
+      object-fit: cover;
+      border-radius: 12px;
+      margin-bottom: 25px;
+    }
+
+    .body {
+      font-size: 18px;
+      color: #ddd;
+      overflow-wrap: anywhere;
+    }
+
+    .body p {
+      margin: 0 0 22px;
+    }
+
+    .video {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      margin: 28px 0;
+    }
+
+    .video iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+      border-radius: 12px;
+    }
+
+    .status {
+      padding: 30px;
+      background: #171717;
+      border-radius: 10px;
+    }
+
+    footer {
+      border-top: 1px solid #292929;
+      padding: 25px;
+      text-align: center;
+      color: #888;
+      font-size: 13px;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <a class="logo" href="./">PESNEWS</a>
+</header>
+
+<main>
+  <a class="back" href="./" id="back">← Усі новини</a>
+
+  <div id="article" class="status">Завантаження статті...</div>
+</main>
+
+<footer>PESNEWS — News without borders</footer>
+
+<script>
+(function () {
+  const api =
+    'https://api.github.com/repos/Julien-Barik/pesnews/contents/content/news';
+
+  const params = new URLSearchParams(window.location.search);
+  const filename = params.get('file');
+
+  let language = 'uk';
+
+  try {
+    language = localStorage.getItem('pesnews-language') || 'uk';
+  } catch (error) {}
+
+  document.documentElement.lang = language;
+
+  document.getElementById('back').textContent =
+    language === 'en' ? '← All news' : '← Усі новини';
+
+  function escapeHTML(value) {
+    return String(value || '').replace(/[&<>"']/g, function (char) {
+      return {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#39;'
+      }[char];
+    });
+  }
+
+  function parseMarkdown(text) {
+    const match = text.match(/^---\s*\r?\n([\s\S]*?)\r?\n---\s*(?:\r?\n|$)/);
+
+    const fields = {};
+    let body = text;
+
+    if (match) {
+      match[1].split(/\r?\n/).forEach(function (line) {
+        const field = line.match(/^([a-zA-Z0-9_]+):\s*(.*)$/);
+
+        if (field) {
+          let value = field[2].trim();
+
+          if (
+            value.length >= 2 &&
+            value.startsWith('"') &&
+            value.endsWith('"')
+          ) {
+            value = value.slice(1, -1)
+              .replace(/\\"/g, '"')
+              .replace(/\\n/g, '\n');
+          } else if (value === "''" || value === '""') {
+            value = '';
+          }
+
+          fields[field[1]] = value;
+        }
+      });
+
+      body = text.slice(match[0].length).trim();
+    }
+
+    fields.body = body;
+    return fields;
+  }
+
+  function getVideoEmbed(url) {
+    if (!url) return '';
+
+    try {
+      const parsed = new URL(url);
+      let id = '';
+
+      if (parsed.hostname.includes('youtu.be')) {
+        id = parsed.pathname.slice(1);
+      } else if (
+        parsed.hostname.includes('youtube.com') ||
+        parsed.hostname.includes('youtube-nocookie.com')
+      ) {
+        if (parsed.pathname === '/watch') {
+          id = parsed.searchParams.get('v') || '';
+        } else if (
+          parsed.pathname.startsWith('/shorts/') ||
+          parsed.pathname.startsWith('/embed/')
+        ) {
+          id = parsed.pathname.split('/')[2] || '';
+        }
+      }
+
+      if (!/^[a-zA-Z0-9_-]+$/.test(id)) return '';
+
+      return '<div class="video"><iframe src="https://www.youtube-nocookie.com/embed/' +
+        encodeURIComponent(id) +
+        '" title="PESNEWS video" loading="lazy" allowfullscreen></iframe></div>';
+    } catch (error) {
+      return '';
+    }
+  }
+
+  function showError(message) {
+    document.getElementById('article').innerHTML =
+      '<div class="status">' + escapeHTML(message) + '</div>';
+  }
+
+  async function loadArticle() {
+    if (!filename || filename.includes('/') || !/\.md$/i.test(filename)) {
+      showError(language === 'en'
+        ? 'Article not found. Please return to the news page.'
+        : 'Статтю не знайдено. Поверніться до списку новин.');
+      return;
+    }
+
+    try {
+      const response = await fetch(api, {
+        headers: { Accept: 'application/vnd.github+json' }
+      });
+
+      if (!response.ok) throw new Error('API error');
+
+      const files = await response.json();
+
+      const file = files.find(function (item) {
+        return item.type === 'file' && item.name === filename;
+      });
+
+      if (!file) throw new Error('Article not found');
+
+      const articleResponse = await fetch(file.download_url);
+
+      if (!articleResponse.ok) throw new Error('Article could not be loaded');
+
+      const text = await articleResponse.text();
+      const article = parseMarkdown(text);
+
+      const title = language === 'en'
+        ? article.title_en || article.title || ''
+        : article.title || '';
+
+      const description = language === 'en'
+        ? article.description_en || article.description || ''
+        : article.description || '';
+
+      const category = language === 'en'
+        ? article.category_en || article.category || ''
+        : article.category || '';
+
+      const body = language === 'en'
+        ? article.body_en || article.body || ''
+        : article.body || '';
+
+      const image = article.image || article.cover || '';
+      const date = article.date || '';
+
+      const paragraphs = body
+        .split(/\r?\n\s*\r?\n/)
+        .filter(Boolean)
+        .map(function (paragraph) {
+          return '<p>' +
+            escapeHTML(paragraph).replace(/\r?\n/g, '<br>') +
+            '</p>';
+        })
+        .join('');
+
+      document.title = title + ' — PESNEWS';
+
+      document.getElementById('article').className = '';
+      document.getElementById('article').innerHTML =
+        '<div class="category">' + escapeHTML(category) + '</div>' +
+        '<h1>' + escapeHTML(title) + '</h1>' +
+        (description
+          ? '<p class="date">' + escapeHTML(description) + '</p>'
+          : '') +
+        (date
+          ? '<div class="date">' + escapeHTML(date) + '</div>'
+          : '') +
+        (image
+          ? '<img class="cover" src="' + escapeHTML(image) +
+            '" alt="' + escapeHTML(title) + '">'
+          : '') +
+        '<div class="body">' + paragraphs + '</div>' +
+        getVideoEmbed(article.video);
+    } catch (error) {
+      console.error(error);
+
+      showError(language === 'en'
+        ? 'Could not load this article. Please try again later.'
+        : 'Не вдалося завантажити статтю. Спробуйте пізніше.');
+    }
+  }
+
+  loadArticle();
+})();
+</script>
+
+</body>
+</html> 
