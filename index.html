@@ -769,9 +769,12 @@ const matchesCategory =
      '<div class="card-image' + (hasVideo ? ' has-video' : '') + '">' +
      '<img src="' + escapeHTML(image) + '" alt="' + escapeHTML(title) +
      '" loading="lazy" onerror="this.onerror=null;this.src=\'' + fallbackImage + '\'">' +
-    (hasVideo ? '<span class="video-play" aria-label="Video">▶</span>' : '') +
-    '</div>' +
-    '<div class="card-content">' +
+     (hasVideo
+     ? '<button class="video-play" type="button" data-video="' +
+      escapeHTML(article.video) + '" aria-label="Play video">▶</button>'
+      : '') +
+     '</div>' +
+     '<div class="card-content">' +
           '<div class="tag">' + escapeHTML(category) + '</div>' +
           '<h3>' + escapeHTML(title) + '</h3>' +
           (description
@@ -850,6 +853,20 @@ const matchesCategory =
     }
   }
 
+   grid.addEventListener('click', function (event) {
+    const button = event.target.closest('.video-play');
+    if (!button) return;
+
+    const card = button.closest('.card');
+    const videoHTML = videoEmbed(button.dataset.video);
+    if (!card || !videoHTML) return;
+
+    const imageBox = card.querySelector('.card-image');
+    if (!imageBox) return;
+
+    imageBox.innerHTML = videoHTML;
+    imageBox.classList.remove('has-video');
+  });
   function setLanguage(language) {
     currentLanguage = language;
     document.documentElement.lang = language;
