@@ -765,12 +765,13 @@ const matchesCategory =
 
       const videoHTML = videoEmbed(article.video);
 
-      return ‘’ +
-             ‘’ +
-             ‘’ +
-             (hasVideo ? ‘▶’ : ‘’) +
-             ‘’ +
-        '<div class="card-content">' +
+      return '<article class="card" id="' + (index === 0 ? 'videos' : '') + '">' +
+     '<div class="card-image' + (hasVideo ? ' has-video' : '') + '">' +
+     '<img src="' + escapeHTML(image) + '" alt="' + escapeHTML(title) +
+     '" loading="lazy" onerror="this.onerror=null;this.src=\'' + fallbackImage + '\'">' +
+    (hasVideo ? '<span class="video-play" aria-label="Video">▶</span>' : '') +
+    '</div>' +
+    '<div class="card-content">' +
           '<div class="tag">' + escapeHTML(category) + '</div>' +
           '<h3>' + escapeHTML(title) + '</h3>' +
           (description
