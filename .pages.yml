@@ -29,15 +29,15 @@ content:
             - Культура
             - Мир
             - Видео
-      name: cover
-    label: Обложка
-    type: image
-    - name: video
-    label: Посилання на відео
-    type: string
-    - name: description
-    label: Краткое описание
-    type: text
-    - name: body
-    label: Текст статьи
-    type: rich-text
+      - name: cover
+        label: Обложка
+        type: image
+      - name: video
+        label: Посилання на відео
+        type: string
+      - name: description
+        label: Краткое описание
+        type: text
+      - name: body
+        label: Текст статьи
+        type: rich-text
