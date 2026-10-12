@@ -6,6 +6,41 @@
 <meta name="theme-color" content="#101010">
 <meta name="description" content="PESNEWS — новини, історії та відео.">
 <title>PESNEWS — Новини без зайвого</title>
+.category-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 20px 0 24px;
+}
+
+.category-button {
+  background: #191919;
+  color: #f5f5f5;
+  border: 1px solid #303030;
+  border-radius: 7px;
+  padding: 10px 15px;
+  font-size: 13px;
+  font-weight: 700;
+  transition: background .2s, border-color .2s;
+}
+
+.category-button:hover,
+.category-button.active {
+  background: #ff4d36;
+  border-color: #ff4d36;
+  color: #fff;
+}
+
+@media (max-width: 560px) {
+  .category-filters {
+    gap: 7px;
+  }
+
+  .category-button {
+    padding: 9px 11px;
+    font-size: 12px;
+  }
+}
 
 <style>
 :root {
@@ -434,10 +469,15 @@ footer {
     <a class="logo" href="#">PES<span>NEWS</span></a>
 
     <nav>
-      <a href="#home" data-uk="Головна" data-en="Home">Головна</a>
-      <a href="#news" data-uk="Новини" data-en="News">Новини</a>
-      <a href="#videos" data-uk="Відео" data-en="Videos">Відео</a>
-    </nav>
+  <a href="#home" data-uk="Головна" data-en="Home">Головна</a>
+  <a href="#news" data-uk="Новини" data-en="News">Новини</a>
+  <a href="#politics" data-uk="Політика" data-en="Politics">Політика</a>
+  <a href="#world" data-uk="Світ" data-en="World">Світ</a>
+  <a href="#sports" data-uk="Спорт" data-en="Sports">Спорт</a>
+  <a href="#animals" data-uk="Тварини" data-en="Animals">Тварини</a>
+  <a href="#food" data-uk="Їжа без меж" data-en="Food Without Borders">Їжа без меж</a>
+  <a href="#videos" data-uk="Відео" data-en="Videos">Відео</a>
+</nav>
 
     <div class="languages">
       <button id="lang-uk" class="active" type="button">UA</button>
@@ -509,6 +549,24 @@ footer {
              placeholder="Пошук новин..."
              aria-label="Search news">
     </div>
+<div class="category-filters" id="category-filters">
+  <button class="category-button active" data-category="all"
+          data-uk="Усі" data-en="All">Усі</button>
+  <button class="category-button" data-category="Новини"
+          data-uk="Новини" data-en="News">Новини</button>
+  <button class="category-button" data-category="Політика"
+          data-uk="Політика" data-en="Politics">Політика</button>
+  <button class="category-button" data-category="Світ"
+          data-uk="Світ" data-en="World">Світ</button>
+  <button class="category-button" data-category="Спорт"
+          data-uk="Спорт" data-en="Sports">Спорт</button>
+  <button class="category-button" data-category="Тварини"
+          data-uk="Тварини" data-en="Animals">Тварини</button>
+  <button class="category-button" data-category="Їжа без меж"
+          data-uk="Їжа без меж" data-en="Food Without Borders">Їжа без меж</button>
+  <button class="category-button" data-category="video"
+          data-uk="Відео" data-en="Videos">Відео</button>
+</div>
 
     <div class="news-grid" id="news-grid">
       <div class="status" data-uk="Завантажуємо публікації…"
@@ -538,7 +596,7 @@ footer {
 
   let articles = [];
   let currentLanguage = 'uk';
-
+  let activeCategory = 'all';
   document.getElementById('year').textContent = new Date().getFullYear();
 
   function escapeHTML(value) {
@@ -642,20 +700,53 @@ footer {
   function render() {
     const query = search.value.trim().toLowerCase();
 
-    const filtered = articles.filter(function (article) {
-      const searchable = [
-        article.title,
-        article.title_en,
-        article.description,
-        article.description_en,
-        article.body,
-        article.body_en,
-        article.category,
-        article.category_en
-      ].join(' ').toLowerCase();
+   const filtered = articles.filter(function (article) {
+  const searchable = [
+    article.title,
+    article.title_en,
+    article.description,
+    article.description_en,
+    article.body,
+    article.body_en,
+    article.category,
+    article.category_en
+  ].join(' ').toLowerCase();
 
-      return searchable.includes(query);
-    });
+  const matchesSearch = searchable.includes(query);
+
+  const category = String(article.category || '')
+    .trim()
+    .toLowerCase();
+
+  let normalizedCategory = category;
+
+  if (['новини', 'новости', 'news'].includes(category)) {
+    normalizedCategory = 'новини';
+  } else if (['політика', 'политика', 'politics'].includes(category)) {
+    normalizedCategory = 'політика';
+  } else if (['світ', 'мир', 'world'].includes(category)) {
+    normalizedCategory = 'світ';
+  } else if (['спорт', 'sports'].includes(category)) {
+    normalizedCategory = 'спорт';
+  } else if (['тварини', 'животные', 'animals'].includes(category)) {
+    normalizedCategory = 'тварини';
+  } else if ([
+    'їжа без меж',
+    'food without borders',
+    'кулинария',
+    'cooking'
+  ].includes(category)) {
+    normalizedCategory = 'їжа без меж';
+  }
+
+  const matchesCategory =
+    activeCategory === 'all' ||
+    (activeCategory === 'video' && Boolean(article.video)) ||
+    normalizedCategory === activeCategory.toLowerCase();
+
+  return matchesSearch && matchesCategory;
+});
+
 
     if (!filtered.length) {
       grid.innerHTML = '<div class="status">' +
@@ -807,6 +898,17 @@ footer {
   });
 
   search.addEventListener('input', render);
+  document.querySelectorAll('.category-button').forEach(function (button) {
+  button.addEventListener('click', function () {
+    activeCategory = button.dataset.category;
+
+    document.querySelectorAll('.category-button').forEach(function (item) {
+      item.classList.toggle('active', item === button);
+    });
+
+    render();
+  });
+});
 
   try {
     currentLanguage = localStorage.getItem('pesnews-language') || 'uk';
