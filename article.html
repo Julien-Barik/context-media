@@ -123,14 +123,18 @@
 
         let id = '';
         if (videoUrl.hostname.includes('youtu.be')) {
-          id = videoUrl.pathname.slice(1);
-        } else if (videoUrl.hostname.includes('youtube.com')) {
-          id = videoUrl.searchParams.get('v') || '';
-          if (videoUrl.pathname.startsWith('/embed/')) {
-            id = videoUrl.pathname.split('/')[2] || '';
-          }
-        }
+        id = videoUrl.pathname.slice(1);
+      } else if (videoUrl.hostname.includes('youtube.com')) {
+        id = videoUrl.searchParams.get('v') || '';
 
+  if (
+    videoUrl.pathname.startsWith('/embed/') ||
+    videoUrl.pathname.startsWith('/shorts/') ||
+    videoUrl.pathname.startsWith('/live/')
+  ) {
+    id = videoUrl.pathname.split('/')[2] || '';
+  }
+}   
         if (!/^[\w-]+$/.test(id)) return '';
         return '<iframe src="https://www.youtube-nocookie.com/embed/' +
           encodeURIComponent(id) +
